@@ -12,17 +12,11 @@
 */
 
 Route::get('/','IndexController@index');
-// 认证路由...
-//Route::get('auth/login', 'Auth\AuthController@getLogin');
-//Route::post('auth/login', 'Auth\AuthController@postLogin');
-//Route::get('auth/logout', 'Auth\AuthController@getLogout');
-
-//Route::any('admin/login','Admin\AdminController@Login');
-//Route::post('admin/login','Admin\AdminController@postLogin');
-//Route::get('admin/logout','Admin\AdminController@postLogout');
+Route::any('/info','IndexController@info');
+Route::any('/password','IndexController@password');
 
 Route::any('login','IndexController@Login');
-Route::any('logout','IndexController@Logout');
+Route::get('logout','IndexController@Logout');
 
 /*
 Route::get('/', function () {

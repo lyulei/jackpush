@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Validator;
 
 class IndexController extends Controller
 {
@@ -20,19 +21,8 @@ class IndexController extends Controller
      */
     public function index()
     {
-        if(session('user')->phonenumber){
-
-            $data = array('yidong'=>
-                        array('music'=>
-                            array(
-                                array('id'=>'100','name'=>'one'),
-                                array('id'=>'101','name'=>'two'),
-                                array('id'=>'102','name'=>'three'),
-                                array('id'=>'103','name'=>'four'),
-                                array('id'=>'104','name'=>'five')
-                            )
-                        )
-            );
+        //dd(session('user'));
+        if(session('user')){
 
             $list = array();
             $list['YD']['MUSIC']['0']['id']='100';
@@ -69,9 +59,9 @@ class IndexController extends Controller
 
                 $bout++;
                 $num = count($list);
-echo $bout;
+
                 if($bout == $num){
-                    $str .= '<li class="last"><div class="hitarea expandable-hitarea"></div><a href="#">'.$k.'</a><ul style="display: none;">';
+                    $str .= '</ul></li><li class="expandable lastExpandable"><div class="hitarea expandable-hitarea lastExpandable-hitarea"></div><a href="#">'.$k.'</a><ul style="display: none;">';
                 } else {
                     $str .= '<li class="expandable"><div class="hitarea expandable-hitarea"></div><a href="#">'.$k.'</a><ul style="display: none;">';
                 }
@@ -82,7 +72,7 @@ echo $bout;
 
                     if($bout_one == $num_one){
                         $bout_one = 0;
-                        $str .= '<li class="last"><div class="hitarea expandable-hitarea"></div><a href="#">'.$kk.'</a><ul style="display: none;">';
+                        $str .= '<li class="expandable lastExpandable"><div class="hitarea expandable-hitarea lastExpandable-hitarea"></div><a href="#">'.$kk.'</a><ul style="display: none;">';
                     } else {
                         $str .= '<li class="expandable"><div class="hitarea expandable-hitarea"></div><a href="#">'.$kk.'</a><ul style="display: none;">';
                     }
@@ -101,49 +91,17 @@ echo $bout;
                 }
 
             }
-
+            $str .='</ul></li>';
             //dd($str);
-
-            //dd($list);
-            /*
-            $v=end($data['yidong']);
-            $k=key($data['yidong']);
-            $i=0;
-            $str="";
-
-                       for($i;$i<count($v);$i++){
-                            if($i == count($v)-1){
-                                $str .='<li class="last"><a href="">'.$v[$i]["id"].'-'.$v[$i]["name"].'</a></li>';
-                            } else {
-                                $str .='<li><a href="">'.$v[$i]["id"].'-'.$v[$i]["name"].'</a></li>';
-                            }
-                        }
-*/
-
-            /*
-                                  $str = '<ul style=\"display: none;\"><li class=\"expandable\"><div class=\"hitarea expandable-hitarea\"></div>';
-                                   $i = 0;
-                                   foreach($data as $key => $value ){
-                                       $str .= '<a href="">'.$key.'</a><ul style="display: none;"><li class="expandable"><div class="hita expandable-hitarea"></div>';
-                                           foreach($value as $k=>$v){
-                       //echo count($v)."\n";
-
-                                               $str .='<a href="">'.$k.'</a><ul style="display: none;">';
-                                               for($i;$i<count($v);$i++){
-                                                   if($i == count($v)-1){
-                                                       $str .='<li class="last"><a href="">'.$v[$i]["id"].'-'.$v[$i]["name"].'</a></li></ul></li>';
-                                                   } else {
-                                                       $str .='<li><a href="">'.$v[$i]["id"].'-'.$v[$i]["name"].'</a></li>';
-                                                   }
-                                               }
-                                           }
-
-                                   }
-            */
-            //dd($str);
-            //echo $str;
-            return view('testtest')->with('str',$str);
-            //return view('index');
+            //$user['truename'] = session('user')->truename;
+            //$user['uid'] = session('user')->uid;
+            //$user->toArray();
+            //print_r($user);
+            $turename = session('user')->truename;
+            //echo $turename;
+            //return view('index')->with('str',$str);
+            return view('index',['str'=>$str,'turename'=>$turename]);
+            //return view('index',compact(str,turename));
         } else {
             return redirect('/login')->with('msg', '请登录');
         }
@@ -163,20 +121,64 @@ echo $bout;
     public function Login()
     {
         if($input = Input::all()){
-            $user = User::first();
+            $users = DB::select('select * from users where phonenumber = ?', [$input['phonenumber']]);
+
+            foreach($users as $user)
+                //dd($user->truename);
+
+            //$user = User::first();
             if($user->phonenumber != $input['phonenumber'] or Crypt::decrypt($user->password) != $input['password']){
                 //echo 'ok';
                 return back()->with('msg','用户名或密码错误！');
             }
             session(['user'=>$user]);
-            echo "ok";
+            //echo "ok";
+            //return view('index');
+            return redirect('/');
         } else {
             return view('login');
         }
     }
 
-    public function php(){
-        dd(phpinfo());
+    public function logout(){
+        session(['user'=>null]);
+
+        return redirect('/');
+    }
+
+
+    public function info(){
+        //echo date('Y-m-d H:i:s',time());
+        return view('info');
+    }
+
+    public function password(){
+        if($input = Input::all()){
+            $rules = [
+                'password_old'=>'required|between:6,20',
+                'password'=>'required|between:6,20|confirmed',
+            ];
+
+            $message = [
+                'password_old.required'=>'原密码不能为空',
+                'password_old.between'=>'原密码必须在6-20位之间',
+                'password.required'=>'新密码不能为空',
+                'password.between'=>'新密码必须在6-20位之间',
+                'password.confirmed'=>'新密码和确认密码不一致',
+            ];
+
+            $validator = Validator::make($input,$rules,$message);
+
+            if($validator->passes()){
+                echo 'yes';
+            } else {
+                //dd($validator->errors()->all());
+                return back()->withErrors($validator);
+            }
+
+        } else {
+            return view('password');
+        }
     }
 
     /**

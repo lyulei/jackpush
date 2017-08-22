@@ -22,152 +22,25 @@
     a:visited {text-decoration:none ; color:black;}
     a:hover {text-decoration:underline ; color:black;}
     a:active {text-decoration:none ; color:black;}
+    #main { width:15%; float:left;}
+    #content {width:80%; padding: 1em;}
+    #loginifo {float:right; font-size: 12px;}
 </style>
 
 <body>
-<h1 id="banner">Jackpush Demo</h1>
-<div id="main"> <a href=".">Main Demo</a>
+<h1 id="banner">Jackpush Demo <div id="loginifo"> 管理员：{{$turename}} <a href="{{url('/password')}}" target="main">修改密码</a> <a href="{{url('/logout')}}">退出</a> </div></h1>
+<div id="main"> <a href=".">功能菜单</a>
     <div id="sidetree">
         <div class="treeheader">&nbsp;</div>
         <div id="sidetreecontrol"> <a href="?#">全部折叠</a> | <a href="?#">全部展开</a> </div>
         <ul class="treeview" id="tree">
             <li class="expandable">
                 <div class="hitarea expandable-hitarea"></div>
-                <a href="?/index.cfm">Home</a>
-                <ul style="display: none;">
-                    <li><a href="?/enewsletters/index.cfm">Airdrie eNewsletters </a></li>
-                    <li><a href="?/index.cfm">Airdrie Directories</a></li>
-                    <li><a href="?/economic_development/video/index.cfm">Airdrie Life Video</a></li>
-                    <li><a href="?/index.cfm">Airdrie News</a></li>
-                    <li><a href="?/index.cfm">Airdrie Quick Links</a></li>
-                    <li><a href="?http://weather.ibegin.com/ca/ab/airdrie/" target="_blank">Airdrie Weather</a></li>
-                    <li><a href="?/human_resources/index.cfm">Careers</a> | <a href="?/contact_us/index.cfm">Contact Us</a> | <a href="?/site_map/index.cfm">Site Map</a> | <a href="?/links/index.cfm">Links</a></li>
-                    <li><a href="?/calendars/index.cfm">Community Calendar </a></li>
-                    <li><a href="?/conditions_of_use/index.cfm">Conditions of Use and Privacy Statement</a></li>
-                    <li><a href="?/index.cfm">I'd like to find out about... </a></li>
-                    <li><a href="?/index.cfm">Opportunities</a></li>
-                    <li><a href="?/links/index.cfm">Resource Links</a></li>
-                    <li class="last"><a href="?/index.cfm">Special Notices</a></li>
-                </ul>
-            </li>
-            <li class="expandable">
-                <div class="hitarea expandable-hitarea"></div>
                 <span>代码管理</span>
                 <ul style="display: none;">
-                    <li class="expandable">
-                        <div class="hitarea expandable-hitarea"></div>
-                        <a href="?/building_development/index.cfm">移动</a>
-                        <ul style="display: none;">
-                            <li class="expandable">
-                                <div class="hitarea expandable-hitarea"></div>
-                                <a href="?/building_inspections/index.cfm">音乐</a>
-                                <ul style="display: none;">
-                                    <li><a href="?/building_inspections/builder_forums.cfm">113 - 杭州大猫</a></li>
-                                    <li><a href="?/building_inspections/contact_us.cfm">121 - 悦蓝</a></li>
-                                    <li><a href="?/building_inspections/contractor_notices.cfm">140 - 长沙猎手</a></li>
-                                    <li><a href="?/building_inspections/inspector_guidelines.cfm">152 - 亚特</a></li>
-                                    <li class="last"><a href="?/building_inspections/links.cfm">392 - 南京修邦</a></li>
-                                    <!--
-                                    <li class="expandable lastExpandable">
-                                        <div class="hitarea expandable-hitarea lastExpandable-hitarea"></div>
-                                        <a href="?/building_inspections/statistics_2007.cfm">Statistics</a>
-                                        <ul style="display: none;">
-                                            <li><a href="?/building_inspections/statistics_2006.cfm">Statistics 2006</a></li>
-                                            <li class="last"><a href="?/building_inspections/statistics_2005.cfm">Statistics 2005</a></li>
-                                        </ul>
-                                    </li>
-                                    -->
-                                </ul>
-                            </li>
-                            <li class="expandable">
-                                <div class="hitarea expandable-hitarea"></div>
-                                <a title="City Infrastructure" href="?/building_development/city_infrastructure/index.cfm">PC</a>
-                                <ul style="display: none;">
-                                    <li><a href="?/building_development/city_infrastructure/roadway_improvement.cfm">123 - 测试测试</a></li>
-                                    <li><a href="?/building_development/city_infrastructure/traffic.cfm">123 - 测试测试</a></li>
-                                    <li><a href="?/building_development/city_infrastructure/transportation_planning.cfm">123 - 测试测试</a></li>
-                                    <li class="last"><a href="?/building_development/city_infrastructure/water_sewer_construction.cfm">123 - 测试测试</a></li>
-                                </ul>
-                            </li>
-                            <li class="expandable">
-                                <div class="hitarea expandable-hitarea"></div>
-                                <a title="Commercial/Industrial Development" href="?/building_development/commercial_industrial_development/index.cfm">动漫</a>
-                                <ul style="display: none;">
-                                    <li><a title="Call Before You Dig" href="?/building_development/commercial_industrial_development/call_before_you_dig.cfm">123 - 测试测试</a></li>
-                                    <li><a title="New Development" href="?/building_development/commercial_industrial_development/new_development.cfm">123 - 测试测试</a></li>
-                                    <li><a title="Existing Development" href="?/building_development/commercial_industrial_development/existing_development.cfm">123 - 测试测试</a></li>
-                                    <li><a title="Signage" href="?/building_development/commercial_industrial_development/signage.cfm">123 - 测试测试</a></li>
-                                    <li><a title="Notice of Development" href="?/building_development/planning/notice_of_development/notice_of_development.cfm">123 - 测试测试</a></li>
-                                    <li><a title="Appeals" href="?/public_meetings/appeals/index.cfm">123 - 测试测试</a></li>
-                                    <li><a title="Customer Feedback" href="?/building_development/commercial_industrial_development/customer_feedback.cfm">123 - 测试测试</a></li>
-                                    <li><a title="Certificate of Compliance" href="?/building_development/commercial_industrial_development/certificate_of_compliance.cfm">123 - 测试测试</a></li>
-                                    <li><a title="Permit Applications &amp; Forms" href="?/building_development/commercial_industrial_development/permit_applications_forms.cfm">123 - 测试测试</a></li>
-                                    <li class="last"><a title="Fees" href="?/building_development/commercial_industrial_development/fees.cfm">123 - 测试测试</a></li>
-                                </ul>
-                            </li>
-                            <li class="expandable lastExpandable">
-                                <div class="hitarea expandable-hitarea lastExpandable-hitarea"></div>
-                                <!-- This links to an empty content page (25 Sept 2007) -->
-                                <a title="Residential Development" href="?/building_development/residential_development/index.cfm">DDO</a>
-                                <ul style="display: none;">
-                                    <li><a title="Call Before You Dig" href="?/building_development/residential_construction/building_permit_requirements.cfm">123 - 测试测试</a></li>
-                                    <li><a title="New Development" href="?/building_development/residential_construction/new_homes.cfm">123 - 测试测试</a></li>
-                                    <li><a title="Existing Development" href="?/building_development/residential_construction/basements.cfm">123 - 测试测试</a></li>
-                                    <li><a title="Signage" href="?/building_development/commercial_industrial_development/call_before_you_dig.cfm">123 - 测试测试</a></li>
-                                    <li><a title="Decks" href="?/building_development/residential_development/decks.cfm">123 - 测试测试</a></li>
-                                    <li><a title="Detached Garages or Accessory Building" href="?/building_development/residential_development/detached_garages_or_accessory_building.cfm">123 - 测试测试</a></li>
-                                    <li><a title="Grading" href="?/building_development/residential_development/grading.cfm">123 - 测试测试</a></li>
-                                    <li><a title="Fences" href="?/building_development/residential_development/fences.cfm">123 - 测试测试</a></li>
-                                    <li><a title="Applications, Permits &amp; Checklists" href="?/building_development/residential_development/applications_permits_checklists.cfm">123 - 测试测试</a></li>
-                                    <li><a title="Certificate of Compliance" href="?/building_development/commercial_industrial_development/certificate_of_compliance.cfm">123 - 测试测试</a></li>
-                                    <li><a title="Fees" href="?/building_development/residential_development/fees.cfm">123 - 测试测试</a></li>
-                                    <li><a title="Notice of Development" href="?/building_development/planning/notice_of_development/notice_of_development.cfm">123 - 测试测试</a></li>
-                                    <li class="last"><a title="Street Addresses for New Construction" href="?/gis/index.cfm">123 - 测试测试</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="expandable">
-                        <div class="hitarea expandable-hitarea"></div>
-                        <a href="?/community_safety/index.cfm">Community Safety</a>
-                        <ul style="display: none;">
-                            <li><a href="?/disaster_services/index.cfm">Disaster Services</a></li>
-                            <li><a href="?/emergency_services/index.cfm">Emergency Services</a></li>
-                            <li><a href="?/municipal_enforcement/index.cfm">Municipal Enforcement</a></li>
-                            <li class="expandable lastExpandable">
-                                <div class="hitarea expandable-hitarea lastExpandable-hitarea"></div>
-                                <a href="?/rcmp/index.cfm">Royal Canadian Mounted Police</a>
-                                <ul style="display: none;">
-                                    <li><a title="Community Partnership Programs" href="?/rcmp/community_partnership_programs.cfm">Community Partnership Programs</a></li>
-                                    <li class="last"><a title="Traffic Services" href="?/rcmp/traffic_services.cfm">Traffic Services</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="expandable">
-                        <div class="hitarea expandable-hitarea"></div>
-                        <a href="?/community_services/index.cfm">Community Services</a>
-                        <ul style="display: none;">
-                            <li><a href="?/directories/community_directory/index.cfm">Community Directory</a></li>
-                            <li class="last"><a href="?/calendars/index.cfm">Community Calendar</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="?/engineering/index.cfm">Engineering Services </a></li>
-                    <li><a href="?/finance/index.cfm">Finance</a></li>
-                    <li><a href="?/gis/index.cfm">Maps (GIS)</a></li>
-                    <li><a href="?/parks/parks_recreation.cfm">Parks &amp; Recreation</a></li>
-                    <li><a href="?/public_works/index.cfm">Public Works</a></li>
-                    <li class="expandable">
-                        <div class="hitarea expandable-hitarea"></div>
-                        <a href="?/recycling_waste/index.cfm">Recycling, Waste &amp; Composting</a>
-                        <ul style="display: none;">
-                            <li class="last"><a href="?/environmental_services/index.cfm">Environmental Services </a></li>
-                        </ul>
-                    </li>
-                    <li><a href="?/social_planning/index.cfm">Social Planning</a></li>
-                    <li><a href="?/taxation/index.cfm">Taxation</a></li>
-                    <li><a href="?/transit/index.cfm">Transit</a></li>
-                    <li class="last"><a href="?/utilities/index.cfm">Water &amp; Sewer (Utilities)</a></li>
+                    <!-- foreach start -->
+                    {!! $str !!}
+                    <!-- foreach sotp -->
                 </ul>
             </li>
             <li class="expandable">
@@ -579,5 +452,8 @@
             <li class="last"><a href="?https://vch.airdrie.ca/index.cfm">Online Services</a></li>
         </ul>
     </div>
+</div>
+<div id="content">
+    <iframe src="{{url('/info')}}"frameborder="0" width="80%" height="80%"></iframe>
 </div>
 </body>
