@@ -12,8 +12,11 @@
 */
 
 Route::get('/','IndexController@index');
-Route::any('/info','IndexController@info');
-Route::any('/password','IndexController@password');
+//Route::any('info','IndexController@info');
+Route::any('password','IndexController@password');
+//Route::any('/code/{str}','IndexController@code');
+
+Route::resource('code','CodeController');
 
 Route::any('login','IndexController@Login');
 Route::get('logout','IndexController@Logout');

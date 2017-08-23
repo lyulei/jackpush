@@ -83,34 +83,23 @@ class IndexController extends Controller
 
                         if($bout_two == $num_two){
                             $bout_two = 0;
-                            $str .= '<li  class="last"><a href="#">'.$vvv['id'].'-'.$vvv['name'].'</a></li></ul></li>';
+                            $str .= '<li  class="last"><a href="code/'.$vvv['id'].'">'.$vvv['id'].'-'.$vvv['name'].'</a></li></ul></li>';
                         } else {
-                            $str .= '<li><a href="#">'.$vvv['id'].'-'.$vvv['name'].'</a></li>';
+                            $str .= '<li><a href="code/'.$vvv['id'].'">'.$vvv['id'].'-'.$vvv['name'].'</a></li>';
                         }
                     }
                 }
 
             }
             $str .='</ul></li>';
-            //dd($str);
-            //$user['truename'] = session('user')->truename;
-            //$user['uid'] = session('user')->uid;
-            //$user->toArray();
-            //print_r($user);
+
             $turename = session('user')->truename;
-            //echo $turename;
-            //return view('index')->with('str',$str);
+            session(['str' => $str]);
+
             return view('index',['str'=>$str,'turename'=>$turename]);
-            //return view('index',compact(str,turename));
         } else {
-            return redirect('/login')->with('msg', '请登录');
+            return redirect('/login')->with('msg', '请登录！');
         }
-        //dd(Request);
-
-        //$users =  DB::select('select * from users where uid = ?', [1]);
-        //dd($users);
-        //return view('user.index', ['users' => $users]);
-
     }
 
     /**
@@ -120,21 +109,21 @@ class IndexController extends Controller
      */
     public function Login()
     {
-        if($input = Input::all()){
+        if($input = Input::all()) {
             $users = DB::select('select * from users where phonenumber = ?', [$input['phonenumber']]);
 
-            foreach($users as $user)
-                //dd($user->truename);
+            if ($users) {
+                foreach ($users as $user)
 
-            //$user = User::first();
-            if($user->phonenumber != $input['phonenumber'] or Crypt::decrypt($user->password) != $input['password']){
-                //echo 'ok';
-                return back()->with('msg','用户名或密码错误！');
+                if ($user->phonenumber != $input['phonenumber'] or Crypt::decrypt($user->password) != $input['password']) {
+                    return back()->with('msg', '用户名或密码错误！');
+                }
+                session(['user' => $user]);
+
+                return redirect('/');
+            } else {
+                return back()->with('msg', '用户名不存在！');
             }
-            session(['user'=>$user]);
-            //echo "ok";
-            //return view('index');
-            return redirect('/');
         } else {
             return view('login');
         }
@@ -147,9 +136,14 @@ class IndexController extends Controller
     }
 
 
-    public function info(){
+    public function code(Request $request){
         //echo date('Y-m-d H:i:s',time());
-        return view('info');
+        dd($request->type);
+
+        $turename = session('user')->truename;
+        $str = session('str');
+
+        return view('code',['str'=>$str,'turename'=>$turename]);
     }
 
     public function password(){
@@ -160,24 +154,46 @@ class IndexController extends Controller
             ];
 
             $message = [
-                'password_old.required'=>'原密码不能为空',
-                'password_old.between'=>'原密码必须在6-20位之间',
-                'password.required'=>'新密码不能为空',
-                'password.between'=>'新密码必须在6-20位之间',
-                'password.confirmed'=>'新密码和确认密码不一致',
+                'password_old.required'=>'原密码不能为空！',
+                'password_old.between'=>'原密码必须在6-20位之间！',
+                'password.required'=>'新密码不能为空！',
+                'password.between'=>'新密码必须在6-20位之间！',
+                'password.confirmed'=>'新密码和确认密码不一致！',
             ];
 
             $validator = Validator::make($input,$rules,$message);
 
             if($validator->passes()){
-                echo 'yes';
+                $user = DB::table('users')->where('uid', session('user')->uid)->first();
+                $password_old = Crypt::decrypt($user->password);
+
+                if($input['password_old'] == $password_old){
+                    $password = Crypt::encrypt($input['password']);
+
+                    $update = DB::table('users')
+                        ->where('uid', session('user')->uid)
+                        ->update(['password' => $password]);
+
+                    if($update){
+                        //return redirect('/');
+                        $validator->errors()->add('errors','密码修改成功！');
+                        return back()->withErrors($validator);
+                    } else {
+                        $validator->errors()->add('errors','更新失败请稍后再试！');
+                        return back()->withErrors($validator);
+                    }
+                } else {
+                    $validator->errors()->add('errors','原密码错误！');
+                    return back()->withErrors($validator);
+                }
             } else {
-                //dd($validator->errors()->all());
                 return back()->withErrors($validator);
             }
-
         } else {
-            return view('password');
+            $turename = session('user')->truename;
+            $str = session('str');
+
+            return view('password',['str'=>$str,'turename'=>$turename]);
         }
     }
 
