@@ -1,0 +1,99 @@
+@extends('layouts')
+@section('content')
+    <div style="padding: 15px;">
+        <!-- 面包屑 -->
+        <span class="layui-breadcrumb">
+            <a href="{{url('')}}">首页</a>
+            <a><cite>代码分类</cite></a>
+        </span>
+
+        <!-- 空白段落 -->
+        <div style="margin: 15px 0;"></div>
+
+        <!-- 提示信息显示区域 -->
+        @if(count($errors)>0)
+            @foreach($errors->all() as $error)
+                {{$error}}
+            @endforeach
+        @endif
+
+        <!-- 代码分类新增表单 -->
+        <form method="post" class="layui-form" action="{{url('CodeSpecies')}}">
+            {!! csrf_field() !!}
+            <label class="layui-inline">代码类型:</label>
+            <div class="layui-inline">
+                <input type="text" name="codetype" required  lay-verify="required" placeholder="请输入代码类型" autocomplete="off" class="layui-input">
+            </div>
+            <label class="layui-inline">父级分类:</label>
+            <div class="layui-inline">
+                <select name="speciesid" lay-verify="">
+                    <option value="1">移动</option>
+                    <option value="2">联通</option>
+                    <option value="3">电信</option>
+                    <option value="4">短信类型</option>
+                </select>
+            </div>
+            <div class="layui-inline">
+                <button class="layui-btn layui-btn-primary">新增</button>
+            </div>
+        </form>
+
+        <!-- 空白段落 -->
+        <div style="margin: 15px 0;"></div>
+
+        <!-- 代码分类列表 -->
+        <table class="layui-table">
+            <colgroup>
+                <col width="100">
+                <col width="100">
+                <col width="100">
+                <col width="100">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>分类编号</th>
+                <th>代码类型</th>
+                <th>父级分类</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach($result as $res)
+                <tr>
+                    <td>{{$res->codetypeid}}</td>
+                    <td>{{$res->codetype}}</td>
+                    <td>@if($res->speciesid == 1)移动@elseif($res->speciesid == 2)联通@elseif($res->speciesid == 3)电信@else($res->speciesid == 4)短信类型@endif</td>
+                    <td><a href="{{url('CodeSpecies/'.$res->codetypeid.'/edit')}}">编辑</a> | <a href="javascript:;" onclick="delCodeSpecies({{$res->codetypeid}})">删除</a></td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // 删除
+        function delCodeSpecies(id) {
+            //一般直接写在一个js文件中
+            layui.use(['layer', 'form'], function(){
+                var layer = layui.layer
+                    ,form = layui.form;
+                //询问框
+                layer.confirm('确定删除这个代码分类吗？', {
+                    btn: ['确认','取消'] //按钮
+                }, function(){
+                    $.post("{{url('CodeSpecies')}}/"+id,{'_method':'delete','_token':"{{csrf_token()}}"},function (data) {
+                        if(data.status == 1){
+                            location.href = location.href;
+                            layer.msg(data.message, {icon: 1});
+                        } else {
+                            layer.msg(data.message, {icon: 2});
+                        }
+                    })
+                    //layer.msg('的确很重要', {icon: 1});
+                }, function(){
+
+                });
+            });
+        }
+    </script>
+@endsection

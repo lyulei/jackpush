@@ -14,9 +14,20 @@
 Route::get('/','IndexController@index');
 //Route::any('info','IndexController@info');
 Route::any('password','IndexController@password');
-//Route::any('/code/{str}','IndexController@code');
+
+//test
+Route::any('test','IndexController@test');
 
 Route::resource('code','CodeController');
+Route::resource('create','CodeController');
+
+/* 代码类型
+ * */
+Route::resource('CodeType','CodeTypeController');
+
+/* 代码分类
+ * */
+Route::resource('CodeSpecies','CodeSpeciesController');
 
 Route::any('login','IndexController@Login');
 Route::get('logout','IndexController@Logout');
