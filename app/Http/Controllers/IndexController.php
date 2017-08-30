@@ -197,11 +197,6 @@ class IndexController extends Controller
         }
     }
 
-    public function test(){
-
-
-        return view('test');
-    }
     /**
      * Store a newly created resource in storage.
      *
@@ -256,5 +251,13 @@ class IndexController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function test(){
+
+
+
+
+        return view('test');
     }
 }

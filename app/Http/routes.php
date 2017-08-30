@@ -24,10 +24,12 @@ Route::resource('create','CodeController');
 /* 代码类型
  * */
 Route::resource('CodeType','CodeTypeController');
-
 /* 代码分类
  * */
 Route::resource('CodeSpecies','CodeSpeciesController');
+/* 代码分类-代码配置
+ * */
+Route::resource('CodeConfig','CodeConfigController');
 
 Route::any('login','IndexController@Login');
 Route::get('logout','IndexController@Logout');

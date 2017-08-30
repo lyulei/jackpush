@@ -16,7 +16,7 @@
         <!-- 头部区域（可配合layui已有的水平导航） -->
 
         <ul class="layui-nav layui-layout-right">
-            <li class="layui-nav-item"><a href="">管理员：admin</a></li>
+            <li class="layui-nav-item"><a href="">管理员：{{$turename}}</a></li>
             <li class="layui-nav-item"><a href="{{url('/password')}}">修改密码</a></li>
             <li class="layui-nav-item"><a href="{{url('/logout')}}">退出</a></li>
         </ul>

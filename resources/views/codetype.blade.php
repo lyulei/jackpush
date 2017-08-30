@@ -36,10 +36,6 @@
             <div class="layui-inline">
                 <input type="checkbox" checked="" name="display" lay-skin="switch" lay-filter="switchTest" lay-text="YES|NO">
             </div>
-            <!-- <label class="layui-inline">是否显示2</label>
-            <div class="layui-inline">
-                <input name="display" type="radio" value="1" checked="checked" />显示 <input name="display" type="radio" value="0" />不显示
-            </div> -->
             <div class="layui-inline">
                 <button class="layui-btn layui-btn-primary">新增</button>
             </div>
@@ -74,13 +70,13 @@
                         <th lay-data="{edit:'text'}">{{$result->codename}}</th>
                         <th lay-data="{edit:'text'}">{{$result->display}}</th>
                         <th>
-                            <a href="{{url('CodeType/'.$result->codeid.'/edit')}}">配置</a> |
+                            <a href="{{url('CodeConfig/'.$result->codeid)}}">配置</a> |
                             <a href="{{url('CodeType/'.$result->codeid.'/edit')}}">编辑</a> |
                             <a href="javascript:;" onclick="delCodeSpecies({{$result->codeid}})">删除</a></th>
                     </tr>
                 @endforeach
-                </tbody>
-            </table>
+            </tbody>
+        </table>
     </div>
     <script>
         // 删除
@@ -90,7 +86,7 @@
                 var layer = layui.layer
                     ,form = layui.form;
                 //询问框
-                layer.confirm('确定删除这个代码分类吗？', {
+                layer.confirm('确定删除这个代码类型吗？', {
                     btn: ['确认','取消'] //按钮
                 }, function(){
                     $.post("{{url('CodeType')}}/"+id,{'_method':'delete','_token':"{{csrf_token()}}"},function (data) {
