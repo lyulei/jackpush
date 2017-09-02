@@ -98,8 +98,9 @@ class CodeSpeciesController extends Controller
         $result = DB::select('select * from codespecies where del = 0');
 
         $turename = session('user')->truename;
+        $str = session('str');
 
-        return view('codespeciesedit',['turename'=>$turename,'result'=>$result,'edit'=>$edit]);
+        return view('codespeciesedit',['turename'=>$turename,'result'=>$result,'edit'=>$edit,'str'=>$str]);
     }
 
     /**

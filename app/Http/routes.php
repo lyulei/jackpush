@@ -30,7 +30,11 @@ Route::resource('CodeSpecies','CodeSpeciesController');
 /* 代码分类-代码配置
  * */
 Route::resource('CodeConfig','CodeConfigController');
-
+/* 代码信息
+ * */
+Route::resource('CodeInfo','CodeInfoController');
+/* 登录登出
+ * */
 Route::any('login','IndexController@Login');
 Route::get('logout','IndexController@Logout');
 

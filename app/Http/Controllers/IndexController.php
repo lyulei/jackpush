@@ -22,76 +22,54 @@ class IndexController extends Controller
     public function index()
     {
         //dd(session('user'));
+        $species[1] = '移动';
+        $species[2] = '联通';
+        $species[3] = '电信';
+        $species[4] = '短信类型';
+
         if(session('user')){
+            $results = DB::table('codetype')
+                ->join('codespecies', 'codetype.codetypeid', '=', 'codespecies.codetypeid')
+                ->where('codespecies.del', '=', 0)
+                ->get();
 
-            $list = array();
-            $list['YD']['MUSIC']['0']['id']='100';
-            $list['YD']['MUSIC']['0']['name']='one';
-            $list['YD']['MUSIC']['1']['id']='101';
-            $list['YD']['MUSIC']['1']['name']='two';
-            $list['YD']['MUSIC']['2']['id']='102';
-            $list['YD']['MUSIC']['2']['name']='three';
-            $list['YD']['DDO']['0']['id']='106';
-            $list['YD']['DDO']['0']['name']='ten';
-            $list['YD']['DDO']['1']['id']='107';
-            $list['YD']['DDO']['1']['name']='nice';
-
-            $list['LT']['PDO']['0']['id']='103';
-            $list['LT']['PDO']['0']['name']='four';
-            $list['LT']['PDO']['1']['id']='104';
-            $list['LT']['PDO']['1']['name']='five';
-            $list['LT']['PDO']['2']['id']='105';
-            $list['LT']['PDO']['2']['name']='six';
-            $list['LT']['PC']['0']['id']='108';
-            $list['LT']['PC']['0']['name']='good';
-            $list['LT']['PC']['1']['id']='109';
-            $list['LT']['PC']['1']['name']='hi';
-            $list['LT']['PC']['2']['id']='110';
-            $list['LT']['PC']['2']['name']='hello';
-            //dd($list);
-
+            foreach($results as $k => $v){
+                $result[$species[$v->speciesid]][$v->codetype][] = array('id'=>$v->codeid,'name'=>$v->codename);
+            }
+            //dd($result);
+            //dd(Request::getRequestUri());
+            $url = 'http://'.$_SERVER['HTTP_HOST'];
             $str = '';
-            $bout= 0;
-            $bout_one= 0;
-            $bout_two= 0;
-
-            foreach($list as $k=>$v){
-
-                $bout++;
-                $num = count($list);
-
-                if($bout == $num){
-                    $str .= '</ul></li><li class="expandable lastExpandable"><div class="hitarea expandable-hitarea lastExpandable-hitarea"></div><a href="#">'.$k.'</a><ul style="display: none;">';
-                } else {
-                    $str .= '<li class="expandable"><div class="hitarea expandable-hitarea"></div><a href="#">'.$k.'</a><ul style="display: none;">';
+            $num = 1;
+            foreach($result as $kk => $vv){
+                $num1 =1;
+                $key = '2'.$num++;
+                //dd($vv);
+                if($str){
+                    $str = substr($str,0,strlen($str)-3).'}]}, {';
                 }
+                $str .= 'name: "'.$kk.'",id: '.$key.',spread: true,children: [{';
 
-                foreach($v as $kk=>$vv){
-                    $bout_one++;
-                    $num_one = count($v);
+                foreach ($vv as $kkk => $vvv){
+                    $num2 =1;
+                    $ii = $num1++;
+                    $key1 = $key.$ii;
+                    $o = count($vvv);
 
-                    if($bout_one == $num_one){
-                        $bout_one = 0;
-                        $str .= '<li class="expandable lastExpandable"><div class="hitarea expandable-hitarea lastExpandable-hitarea"></div><a href="#">'.$kk.'</a><ul style="display: none;">';
-                    } else {
-                        $str .= '<li class="expandable"><div class="hitarea expandable-hitarea"></div><a href="#">'.$kk.'</a><ul style="display: none;">';
-                    }
-
-                    foreach($vv as $kkk=>$vvv){
-                        $bout_two++;
-                        $num_two = count($vv);
-
-                        if($bout_two == $num_two){
-                            $bout_two = 0;
-                            $str .= '<li  class="last"><a href="code/'.$vvv['id'].'">'.$vvv['id'].'-'.$vvv['name'].'</a></li></ul></li>';
+                    $str .='name: "'.$kkk.'",id: '.$key1.',children: [{';
+                    foreach($vvv as $kkkk => $vvvv){
+                        $i = $num2++;
+                        $key2 = $key1.$i;
+                        //echo $i ."=". $o;
+                        if($i == $o){
+                            $str .='name: "'.$vvvv['id'].'-'.$vvvv['name'].'",id: '.$key2.',href:"'.$url.'/CodeInfo/'.$vvvv['id'].'"}]},{';
                         } else {
-                            $str .= '<li><a href="code/'.$vvv['id'].'">'.$vvv['id'].'-'.$vvv['name'].'</a></li>';
+                            $str .='name: "'.$vvvv['id'].'-'.$vvvv['name'].'",id: '.$key2.',href:"'.$url.'/CodeInfo/'.$vvvv['id'].'"},{';
                         }
                     }
                 }
-
             }
-            $str .='</ul></li>';
+            $str = substr($str,0,strlen($str)-2).']}]';
 
             $turename = session('user')->truename;
             session(['str' => $str]);
@@ -255,8 +233,7 @@ class IndexController extends Controller
 
     public function test(){
 
-
-
+        dd(Crypt::encrypt('123456'));
 
         return view('test');
     }

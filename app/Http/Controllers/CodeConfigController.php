@@ -89,7 +89,8 @@ class CodeConfigController extends Controller
         //dd($data);
 
         $turename = session('user')->truename;
-        return view('codeconfig',['turename'=>$turename,'results'=>$results,'data'=>$data,'codeid'=>$id]);
+        $str = session('str');
+        return view('codeconfig',['turename'=>$turename,'results'=>$results,'data'=>$data,'codeid'=>$id,'str'=>$str]);
     }
 
     /**
@@ -108,7 +109,8 @@ class CodeConfigController extends Controller
             ->get();
 
         $turename = session('user')->truename;
-        return view('codeconfigedit',['turename'=>$turename,'edit'=>$edit,'data'=>$data]);
+        $str = session('str');
+        return view('codeconfigedit',['turename'=>$turename,'edit'=>$edit,'data'=>$data,'str'=>$str]);
     }
 
     /**
