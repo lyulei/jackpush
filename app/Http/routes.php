@@ -33,6 +33,9 @@ Route::resource('CodeConfig','CodeConfigController');
 /* 代码信息
  * */
 Route::resource('CodeInfo','CodeInfoController');
+/* 代码信息-相关配置
+ * */
+Route::resource('CodeInfoConf','CodeInfoConfController');
 /* 登录登出
  * */
 Route::any('login','IndexController@Login');

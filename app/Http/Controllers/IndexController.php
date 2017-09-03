@@ -233,7 +233,7 @@ class IndexController extends Controller
 
     public function test(){
 
-        dd(Crypt::encrypt('123456'));
+        //dd(Crypt::encrypt('123456'));
 
         return view('test');
     }

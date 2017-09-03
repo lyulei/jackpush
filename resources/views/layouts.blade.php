@@ -12,7 +12,7 @@
 
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
-        <div class="layui-logo">JACKPUSH</div>
+        <div class="layui-logo">JACKPUSH BATE</div>
         <!-- 头部区域（可配合layui已有的水平导航） -->
 
         <ul class="layui-nav layui-layout-right">
